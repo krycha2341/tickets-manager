@@ -4,12 +4,13 @@ namespace App\Services;
 
 use App\DataTransferObjects\CreateUserDTO;
 use App\DataTransferObjects\LoginDTO;
+use App\Exceptions\AuthenticationException;
+use App\Exceptions\PasswordMissingException;
 use App\Models\User;
 use App\Repositories\UsersRepository;
 use App\Services\External\UserProvider\UserProviderServiceFactory;
 use App\Services\External\UserProvider\UserProviderServiceInterface;
 use App\ValueObjects\UserVO;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 readonly class UsersService
@@ -23,6 +24,9 @@ readonly class UsersService
         $this->userProviderService = $factory->make();
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function login(LoginDTO $dto): string
     {
         $credentials = [
@@ -39,6 +43,9 @@ readonly class UsersService
         throw new AuthenticationException();
     }
 
+    /**
+     * @throws PasswordMissingException
+     */
     public function syncExternalUser(
         string $externalUserId,
         ?string $password = null
@@ -46,7 +53,7 @@ readonly class UsersService
         $externalUser = $this->userProviderService->getUser($externalUserId);
         $password = $password ?? $externalUser->getPassword();
         if ($password === null) {
-            throw new \InvalidArgumentException();
+            throw new PasswordMissingException();
         }
 
         $userData = new CreateUserDTO(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Users;
 
+use App\Exceptions\PasswordMissingException;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\UserTransformer;
 use App\Services\UsersService;
@@ -16,6 +17,9 @@ class SyncExternalUser extends Controller
     {
     }
 
+    /**
+     * @throws PasswordMissingException
+     */
     public function __invoke(string $id, Request $request): JsonResponse
     {
         $userVo = $this->usersService->syncExternalUser($id, $request->get('password'));

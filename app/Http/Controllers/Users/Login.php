@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\DataTransferObjects\LoginDTO;
+use App\Exceptions\AuthenticationException;
 use App\Http\Controllers\Controller;
 use App\Services\UsersService;
 use Illuminate\Http\JsonResponse;
@@ -14,13 +15,15 @@ class Login extends Controller
     {
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $token = $this->usersService->login(new LoginDTO(
             $request->get('email'),
             $request->get('password')
         ));
-        $request->session()->regenerateToken();
 
         return response()->json(['token' => $token]);
     }

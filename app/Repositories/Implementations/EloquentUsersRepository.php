@@ -3,6 +3,7 @@
 namespace App\Repositories\Implementations;
 
 use App\DataTransferObjects\CreateUserDTO;
+use App\Exceptions\UserNotFoundException;
 use App\Mappers\UserVOMapper;
 use App\Models\User;
 use App\Repositories\UsersRepository;
@@ -32,7 +33,7 @@ readonly class EloquentUsersRepository implements UsersRepository
         /** @var User $user */
         $user = User::query()->where('id', $id)->first();
         if ($user === null) {
-            throw new ModelNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return $this->userVOMapper->fromEloquentModel($user);
@@ -43,7 +44,7 @@ readonly class EloquentUsersRepository implements UsersRepository
         /** @var User $user */
         $user = User::query()->where('email', $email)->first();
         if ($user === null) {
-            throw new ModelNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return $this->userVOMapper->fromEloquentModel($user);
