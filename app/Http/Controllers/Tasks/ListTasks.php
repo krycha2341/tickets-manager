@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Tasks;
 
 use App\DataTransferObjects\ListTasksDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tasks\ListRequest;
 use App\Http\Transformers\TaskTransformer;
 use App\Services\TasksService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ListTasks extends Controller
 {
@@ -15,7 +15,7 @@ class ListTasks extends Controller
     {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ListRequest $request): JsonResponse
     {
         $tasks = $this->tasksService->list(new ListTasksDTO(
             $request->get('limit'),

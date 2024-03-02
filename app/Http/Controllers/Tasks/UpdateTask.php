@@ -6,10 +6,11 @@ namespace App\Http\Controllers\Tasks;
 
 use App\DataTransferObjects\UpdateTaskDTO;
 use App\Enums\TaskStatus;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tasks\UpdateRequest;
 use App\Services\TasksService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UpdateTask extends Controller
 {
@@ -17,7 +18,10 @@ class UpdateTask extends Controller
     {
     }
 
-    public function __invoke(int $id, Request $request): JsonResponse
+    /**
+     * @throws UserNotFoundException
+     */
+    public function __invoke(int $id, UpdateRequest $request): JsonResponse
     {
         $userId = $request->get('user_id');
         if ($userId === null) {

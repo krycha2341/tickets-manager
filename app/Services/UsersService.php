@@ -6,6 +6,7 @@ use App\DataTransferObjects\CreateUserDTO;
 use App\DataTransferObjects\LoginDTO;
 use App\Exceptions\AuthenticationException;
 use App\Exceptions\PasswordMissingException;
+use App\Exceptions\UserNotFoundException;
 use App\Models\User;
 use App\Repositories\UsersRepository;
 use App\Services\External\UserProvider\UserProviderServiceFactory;
@@ -68,5 +69,13 @@ readonly class UsersService
     public function logout(): void
     {
         Auth::user()->currentAccessToken()->delete();
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function get(int $id): UserVO
+    {
+        return $this->usersRepository->get($id);
     }
 }

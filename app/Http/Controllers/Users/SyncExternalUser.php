@@ -6,10 +6,10 @@ namespace App\Http\Controllers\Users;
 
 use App\Exceptions\PasswordMissingException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\SyncExternalUserRequest;
 use App\Http\Transformers\UserTransformer;
 use App\Services\UsersService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SyncExternalUser extends Controller
 {
@@ -20,9 +20,12 @@ class SyncExternalUser extends Controller
     /**
      * @throws PasswordMissingException
      */
-    public function __invoke(string $id, Request $request): JsonResponse
+    public function __invoke(string $id, SyncExternalUserRequest $request): JsonResponse
     {
-        $userVo = $this->usersService->syncExternalUser($id, $request->get('password'));
+        $userVo = $this->usersService->syncExternalUser(
+            $id,
+            $request->get('password')
+        );
 
         return $this->itemResponse($userVo, new UserTransformer());
     }

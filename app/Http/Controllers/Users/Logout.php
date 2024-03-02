@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Services\UsersService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class Logout extends Controller
 {
@@ -13,7 +12,7 @@ class Logout extends Controller
     {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $this->usersService->logout();
 

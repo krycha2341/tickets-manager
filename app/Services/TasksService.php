@@ -6,6 +6,7 @@ use App\DataTransferObjects\CreateTaskDTO;
 use App\DataTransferObjects\ListTasksDTO;
 use App\DataTransferObjects\UpdateTaskDTO;
 use App\Exceptions\TaskNotFoundException;
+use App\Exceptions\UserNotFoundException;
 use App\Repositories\TasksRepository;
 use App\ValueObjects\TaskVO;
 use Illuminate\Support\Collection;
@@ -13,7 +14,8 @@ use Illuminate\Support\Collection;
 readonly class TasksService
 {
     public function __construct(
-        private TasksRepository $tasksRepository
+        private TasksRepository $tasksRepository,
+        private UsersService $usersService
     ) {
     }
 
@@ -30,8 +32,12 @@ readonly class TasksService
         return $this->tasksRepository->get($id);
     }
 
+    /**
+     * @throws UserNotFoundException
+     */
     public function update(UpdateTaskDTO $dto): void
     {
+        $this->usersService->get($dto->getUserId());
         $this->tasksRepository->update($dto);
     }
 

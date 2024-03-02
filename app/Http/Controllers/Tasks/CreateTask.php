@@ -7,10 +7,10 @@ namespace App\Http\Controllers\Tasks;
 use App\DataTransferObjects\CreateTaskDTO;
 use App\Enums\TaskStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tasks\CreateRequest;
 use App\Http\Transformers\TaskTransformer;
 use App\Services\TasksService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CreateTask extends Controller
 {
@@ -18,7 +18,7 @@ class CreateTask extends Controller
     {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(CreateRequest $request): JsonResponse
     {
         $userId = $request->get('user_id');
         if ($userId === null) {

@@ -25,7 +25,7 @@ Route::group([
     'prefix' => 'users',
     'namespace' => '\\',
 ], function () {
-    Route::post('external/{id}/sync', SyncExternalUser::class);
+    Route::post('external/{id}/sync', SyncExternalUser::class)->whereAlphaNumeric('id');
     Route::post('login', Login::class);
 
     Route::group([
@@ -42,7 +42,7 @@ Route::group([
 ], function () {
     Route::post('', CreateTask::class);
     Route::get('', ListTasks::class);
-    Route::get('{id}', GetTask::class);
-    Route::put('{id}', UpdateTask::class);
-    Route::delete('{id}', DeleteTask::class);
+    Route::get('{id}', GetTask::class)->whereNumber('id');
+    Route::put('{id}', UpdateTask::class)->whereNumber('id');
+    Route::delete('{id}', DeleteTask::class)->whereNumber('id');
 });
