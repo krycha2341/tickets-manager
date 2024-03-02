@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Users\Login;
+use App\Http\Controllers\Users\Logout;
+use App\Http\Controllers\Users\SyncExternalUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +19,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group([
+    'prefix' => 'users',
+    'namespace' => '\\'
+], function () {
+    Route::post('external/{id}/sync', SyncExternalUser::class);
+    Route::post('login', Login::class);
+
+    Route::group([
+        'middleware' => 'auth:sanctum',
+    ], function () {
+        Route::post('logout', Logout::class);
+    });
 });
