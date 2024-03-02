@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\External\UserProvider\DummyAPI;
 
 use App\DataTransferObjects\ExternalUserDTO;
@@ -36,7 +38,7 @@ readonly class UsersServiceClient implements UserProviderServiceInterface
             ]
         );
 
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode((string)$response->getBody(), true);
 
         return new ExternalUserDTO(
             $data['id'],

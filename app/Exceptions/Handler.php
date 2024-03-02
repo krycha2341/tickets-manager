@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
 
 class Handler extends ExceptionHandler
 {
@@ -23,7 +22,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(function (ApiException $exception, Request $request) {
+        $this->renderable(function (ApiException $exception) {
             return response()->json(
                 [
                     'message' => $exception->getMessage(),
