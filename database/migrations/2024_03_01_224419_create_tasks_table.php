@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->unsignedInteger('user_id')->index();
+            $table->unsignedInteger('user_id')->nullable()->index();
             $table->foreign('user_id')->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('set null');
             $table->string('status');
             $table->timestamps();
         });

@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Tasks\CreateTask;
+use App\Http\Controllers\Tasks\DeleteTask;
+use App\Http\Controllers\Tasks\GetTask;
+use App\Http\Controllers\Tasks\ListTasks;
+use App\Http\Controllers\Tasks\UpdateTask;
 use App\Http\Controllers\Users\Login;
 use App\Http\Controllers\Users\Logout;
 use App\Http\Controllers\Users\SyncExternalUser;
@@ -18,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'users',
-    'namespace' => '\\'
+    'namespace' => '\\',
 ], function () {
     Route::post('external/{id}/sync', SyncExternalUser::class);
     Route::post('login', Login::class);
@@ -28,4 +33,16 @@ Route::group([
     ], function () {
         Route::post('logout', Logout::class);
     });
+});
+
+Route::group([
+    'prefix' => 'tasks',
+    'namespace' => '\\',
+    'middleware' => 'auth:sanctum',
+], function () {
+    Route::post('', CreateTask::class);
+    Route::get('', ListTasks::class);
+    Route::get('{id}', GetTask::class);
+    Route::put('{id}', UpdateTask::class);
+    Route::delete('{id}', DeleteTask::class);
 });
