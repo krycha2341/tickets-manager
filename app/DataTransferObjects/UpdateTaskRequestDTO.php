@@ -1,19 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataTransferObjects;
 
-use App\Enums\TaskStatus;
+use App\Enums\TaskAction;
 
-readonly class UpdateTaskDTO
+readonly class UpdateTaskRequestDTO
 {
     public function __construct(
         private int $id,
         private string $title,
         private ?string $description,
         private int $userId,
-        private TaskStatus $status
+        private TaskAction $action
     ) {
     }
 
@@ -37,8 +35,8 @@ readonly class UpdateTaskDTO
         return $this->userId;
     }
 
-    public function getStatus(): TaskStatus
+    public function getAction(): TaskAction
     {
-        return $this->status;
+        return $this->action;
     }
 }

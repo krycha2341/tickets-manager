@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Tasks;
 
 use App\DataTransferObjects\UpdateTaskDTO;
+use App\DataTransferObjects\UpdateTaskRequestDTO;
+use App\Enums\TaskAction;
 use App\Enums\TaskStatus;
+use App\Exceptions\CannotPerformActionOnTaskException;
 use App\Exceptions\TaskNotFoundException;
 use App\Exceptions\UserNotFoundException;
 use App\Http\Controllers\Controller;
@@ -24,6 +27,7 @@ class UpdateTask extends Controller
      * @throws UserNotFoundException
      * @throws TaskNotFoundException
      * @throws AuthorizationException
+     * @throws CannotPerformActionOnTaskException
      */
     public function __invoke(int $id, UpdateRequest $request): JsonResponse
     {
@@ -34,12 +38,12 @@ class UpdateTask extends Controller
         if ($userId === null) {
             $userId = $request->user()->id;
         }
-        $dto = new UpdateTaskDTO(
+        $dto = new UpdateTaskRequestDTO(
             $id,
             $request->get('title'),
             $request->get('description'),
             $userId,
-            TaskStatus::tryFrom($request->get('status'))
+            TaskAction::tryFrom($request->get('action'))
         );
         $this->tasksService->update($dto);
 

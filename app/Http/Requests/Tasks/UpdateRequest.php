@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Tasks;
 
-use App\Enums\TaskStatus;
+use App\Enums\TaskAction;
 use App\Http\Requests\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +14,7 @@ class UpdateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:255'],
             'user_id' => ['filled', 'integer'],
-            'status' => ['required', Rule::in(TaskStatus::values())]
+            'action' => ['required', Rule::in(TaskAction::values())]
         ];
     }
 }
