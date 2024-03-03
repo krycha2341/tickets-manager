@@ -16,5 +16,5 @@ Complete .env variable for https://dummyapi.io/docs:
 DUMMY_API_APP_KEY=
 ```
 
-Postman collection: [tasks manager.postman_collection.json](tasks%20manager.postman_collection.json)
+Postman collection: [tasks manager.postman_collection.json](tasks%20manager.postman_collection.json) <br>
 Postman env: [tasks manager.postman_environment.json](tasks%20manager.postman_environment.json)
