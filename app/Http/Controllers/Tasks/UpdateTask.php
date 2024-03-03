@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Tasks;
 
-use App\DataTransferObjects\UpdateTaskDTO;
 use App\DataTransferObjects\UpdateTaskRequestDTO;
 use App\Enums\TaskAction;
-use App\Enums\TaskStatus;
 use App\Exceptions\CannotPerformActionOnTaskException;
 use App\Exceptions\TaskNotFoundException;
 use App\Exceptions\UserNotFoundException;

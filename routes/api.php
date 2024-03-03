@@ -25,13 +25,15 @@ Route::group([
     'prefix' => 'users',
     'namespace' => '\\',
 ], function () {
-    Route::post('external/{id}/sync', SyncExternalUser::class)->whereAlphaNumeric('id');
-    Route::post('login', Login::class);
+    Route::post('external/{id}/sync', SyncExternalUser::class)
+        ->whereAlphaNumeric('id')
+        ->name('users.sync');
+    Route::post('login', Login::class)->name('users.login');
 
     Route::group([
         'middleware' => 'auth:sanctum',
     ], function () {
-        Route::post('logout', Logout::class);
+        Route::post('logout', Logout::class)->name('users.logout');
     });
 });
 
@@ -40,9 +42,15 @@ Route::group([
     'namespace' => '\\',
     'middleware' => 'auth:sanctum',
 ], function () {
-    Route::post('', CreateTask::class);
-    Route::get('', ListTasks::class);
-    Route::get('{id}', GetTask::class)->whereNumber('id');
-    Route::put('{id}', UpdateTask::class)->whereNumber('id');
-    Route::delete('{id}', DeleteTask::class)->whereNumber('id');
+    Route::post('', CreateTask::class)->name('tasks.create');
+    Route::get('', ListTasks::class)->name('tasks.list');
+    Route::get('{id}', GetTask::class)
+        ->whereNumber('id')
+        ->name('tasks.get');
+    Route::put('{id}', UpdateTask::class)
+        ->whereNumber('id')
+        ->name('tasks.update');
+    Route::delete('{id}', DeleteTask::class)
+        ->whereNumber('id')
+        ->name('tasks.delete');
 });
